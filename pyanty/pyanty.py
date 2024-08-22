@@ -13,7 +13,8 @@ from selenium.webdriver.chrome.options import Options
 try:
     from pyppeteer import connect
 except:
-    print('Warning! To work with pyppeteer.\n You need install it with: pip install pyppeteer')
+    pass
+    #print('Warning! To work with pyppeteer.\n You need install it with: pip install pyppeteer')
 
 try:
     from playwright.async_api import async_playwright
@@ -119,13 +120,13 @@ def select_driver_executable(system, architecture):
     else:
         raise ValueError("Unsupported operating system or architecture")
     
-    if system != 'Windows':
-        os.chmod(executable_name, 0o755)
+    #if system != 'Windows':
+    #   os.chmod(executable_name, 0o755)
     
     return executable_name
 
 
-def get_driver(port=9222):
+def get_driver(options=Options(), port=9222):
     system = platform.system()
     architecture = platform.machine()
     driver_path = select_driver_executable(system, architecture)
@@ -135,7 +136,7 @@ def get_driver(port=9222):
         unzip_driver_from_memory(driver_content)
         driver_path = select_driver_executable(system, architecture)
    
-    options = Options()
+    #options = Options()
     options.add_experimental_option('debuggerAddress', f'127.0.0.1:{port}')
     driver = webdriver.Chrome(service=Service(driver_path), options=options)
     return driver
