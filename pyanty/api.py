@@ -5,9 +5,10 @@ import sys
 import chardet
 from .utils import collect_garbage
 
-data = requests.get('https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions.json').json()
-STABLE_CHROME_VERSION = int(data['channels']['Stable']['version'].split('.')[0])
-del data
+#data = requests.get('https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions.json').json()
+#STABLE_CHROME_VERSION = int(data['channels']['Stable']['version'].split('.')[0])
+STABLE_CHROME_VERSION = 128
+#del data
 
 
 class DolphinAPI:
@@ -42,6 +43,14 @@ class DolphinAPI:
         except:
             raise RuntimeError(r.text)
 
+            
+    def get_webgl(self, plattform="windows"):
+        r = self.s.get(
+            f'https://anty-api.com/fingerprints/webgl?browser_type=anty&platform={plattform}')
+        try:
+            return r.json()
+        except:
+            raise RuntimeError(r.text)
 
     def get_extensions(self, page=1, limit=50):
         r = self.s.get(
@@ -183,7 +192,8 @@ class DolphinAPI:
         }
 
         data['webgpu'] = {
-            'mode': 'manual'
+            'mode': 'manual',
+            'value': fingerprint['webgpu']
         }
 
         data['clientRect'] = {
