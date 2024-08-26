@@ -197,7 +197,7 @@ class DolphinAPI:
         }
 
         data['clientRect'] = {
-            'mode': 'noise'
+            'mode': 'real'
         }
 
         data['timezone'] = {
