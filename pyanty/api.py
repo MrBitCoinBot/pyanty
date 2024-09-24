@@ -132,8 +132,22 @@ class DolphinAPI:
         except:
             raise RuntimeError(r.text)
 
+    def generate_useragent(self, platform='windows', browser_version=STABLE_CHROME_VERSION - 1):
+        r = self.s.get(f'https://dolphin-anty-api.com/fingerprints/useragent?browser_type=anty&browser_version={browser_version}&platform={platform}')
+        try:
+            return r.json()
+        except:
+            raise RuntimeError(r.text)
+
     def check_proxy(self, **kwargs):
         r = self.s.post('http://localhost:3001/v1.0/check/proxy', json=kwargs)
+        try:
+            return r.json()
+        except:
+            raise RuntimeError(r.text)
+
+    def import_cookies(self, **kwargs):
+        r = self.s.get(f'https://sync.anty-api.com/?actionType=importCookies&browserProfileId={browser_version}')
         try:
             return r.json()
         except:
